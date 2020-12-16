@@ -1,0 +1,57 @@
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <contextName>spring-boot-demo</contextName>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern> -->
+            <pattern>%date|%-5level|%thread|%msg|%logger{50}:%line%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--application log configuration -->
+    <!--  <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+    <!--    <encoder>-->
+    <!--			&lt;!&ndash; <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> &ndash;&gt;-->
+    <!--      <pattern>-->
+    <!--        %date|%-5level|%thread|%msg|%logger{50}:%line%n-->
+    <!--      </pattern>-->
+    <!--    </encoder>-->
+    <!--    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+    <!--      <fileNamePattern>${conf.dir}/../log/approbe.%d{yyyy-MM-dd}.log.%i</fileNamePattern>-->
+    <!--             &lt;!&ndash; each file should be at most 30MB, keep 30 days worth of history, but at most 10GB &ndash;&gt;-->
+    <!--      <maxFileSize>30MB</maxFileSize>-->
+    <!--			&lt;!&ndash; delete 30 days ago files &ndash;&gt;-->
+    <!--      <maxHistory>30</maxHistory>-->
+    <!--      <totalSizeCap>10GB</totalSizeCap>-->
+    <!--    </rollingPolicy>-->
+    <!--  </appender>-->
+    <!--application error log configuration -->
+    <!--  <appender name="ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+    <!--    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+    <!--      <level>ERROR</level>-->
+    <!--    </filter>-->
+    <!--    <encoder>-->
+    <!--			&lt;!&ndash; <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> &ndash;&gt;-->
+    <!--      <pattern>-->
+    <!--        %date|%-5level|%thread|%msg|%logger{50}:%line%n-->
+    <!--      </pattern>-->
+    <!--    </encoder>-->
+    <!--    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+    <!--      <fileNamePattern>${conf.dir}/../log/error.%d{yyyy-MM-dd}.log.%i</fileNamePattern>-->
+    <!--      <maxFileSize>30MB</maxFileSize>-->
+    <!--            &lt;!&ndash; delete 30 days ago files &ndash;&gt;-->
+    <!--      <maxHistory>30</maxHistory>-->
+    <!--      <totalSizeCap>5GB</totalSizeCap>-->
+    <!--    </rollingPolicy>-->
+    <!--  </appender>-->
+
+
+    <!--  <logger name="com.nokia.itms.approbe" level="DEBUG"></logger>-->
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <!--    <appender-ref ref="APP" />-->
+        <!--    <appender-ref ref="ERR" />-->
+    </root>
+
+</configuration>
