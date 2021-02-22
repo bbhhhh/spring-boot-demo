@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.JmsListener;
@@ -26,7 +28,8 @@ import org.springframework.stereotype.Component;
 public class FirstAMQConsumer {
     private static final Logger logger = LoggerFactory.getLogger(FirstAMQConsumer.class);
 
-    @JmsListener(destination = "${activemq.queue.nbifile}", containerFactory = "firstAMQListenerContainerFactory")
+    @JmsListener(destination = "${activemq.queue.nbifile}", containerFactory = "jmsQueueListenerContainerFactory")
+    //@JmsListener(destination = "${activemq.queue.nbifile}")
     public void processMessage(TextMessage message) {
         String json = "";
         Map<String, String> propertyMap = new HashMap();
@@ -38,8 +41,7 @@ public class FirstAMQConsumer {
                 String propertyName = et.nextElement() + "";
                 propertyMap.put(propertyName, message.getStringProperty(propertyName));
             }
-            logger.info("first amq received msg payload={}", json);
-            logger.info("first amq received msg properties={}", propertyMap);
+            logger.info("first amq received msg payload={}, properties={}", json, propertyMap);
         } catch (JMSException e) {
             logger.error(e.getMessage(), e);
         }

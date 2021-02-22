@@ -20,28 +20,28 @@ import org.springframework.stereotype.Component;
  * @Description: TODO
  */
 
-@ConditionalOnBean(name = "secondAMQListenerContainerFactory")
+
 @Component
 public class SecondAMQConsumer {
     private static final Logger logger = LoggerFactory.getLogger(SecondAMQConsumer.class);
 
 
-    @JmsListener(destination = "${activemq.queue.nbifile}", containerFactory = "secondAMQListenerContainerFactory")
-    public void processMessage(TextMessage message) {
-        String json = "";
-        Map<String, String> propertyMap = new HashMap();
-        try {
-            json = message.getText();
-
-            Enumeration et = message.getPropertyNames();
-            while (et.hasMoreElements()) {
-                String propertyName = et.nextElement() + "";
-                propertyMap.put(propertyName, message.getStringProperty(propertyName));
-            }
-            logger.info("second amq received msg payload={}", json);
-            logger.info("second amq received msg properties={}", propertyMap);
-        } catch (JMSException e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
+//    @JmsListener(destination = "nbi_result_queue", containerFactory = "firstAMQListenerContainerFactory")
+//    public void processMessage(TextMessage message) {
+//        String json = "";
+//        Map<String, String> propertyMap = new HashMap();
+//        try {
+//            json = message.getText();
+//
+//            Enumeration et = message.getPropertyNames();
+//            while (et.hasMoreElements()) {
+//                String propertyName = et.nextElement() + "";
+//                propertyMap.put(propertyName, message.getStringProperty(propertyName));
+//            }
+//            logger.info("second amq received msg payload={}", json);
+//            logger.info("second amq received msg properties={}", propertyMap);
+//        } catch (JMSException e) {
+//            logger.error(e.getMessage(), e);
+//        }
+//    }
 }
