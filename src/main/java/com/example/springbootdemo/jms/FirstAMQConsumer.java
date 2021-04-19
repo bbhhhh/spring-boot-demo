@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class FirstAMQConsumer {
     private static final Logger logger = LoggerFactory.getLogger(FirstAMQConsumer.class);
 
-    @JmsListener(destination = "${activemq.queue.nbifile}", containerFactory = "jmsQueueListenerContainerFactory")
+    //@JmsListener(destination = "${activemq.queue.nbifile}", containerFactory = "jmsQueueListenerContainerFactory")
     //@JmsListener(destination = "${activemq.queue.nbifile}")
     public void processMessage(TextMessage message) {
         String json = "";

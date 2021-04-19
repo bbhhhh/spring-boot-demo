@@ -24,8 +24,8 @@ import org.springframework.jms.core.JmsTemplate;
  * @Description: TODO
  */
 
-@EnableJms
-@Configuration
+//@EnableJms
+//@Configuration
 public class ActiveMQConfig {
     private static final Logger logger = LoggerFactory.getLogger(ActiveMQConfig.class);
 
