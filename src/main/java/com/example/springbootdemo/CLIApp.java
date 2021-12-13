@@ -37,8 +37,8 @@ public class CLIApp implements CommandLineRunner {
     @Autowired
     private AMQProducer amqProducer;
 
-    @Autowired
-    private ActiveMQConfig activeMQConfig;
+    //@Autowired
+    //private ActiveMQConfig activeMQConfig;
 
     @Override
     public void run(String... args) throws Exception {
