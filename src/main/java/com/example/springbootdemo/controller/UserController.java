@@ -1,9 +1,14 @@
 package com.example.springbootdemo.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +17,8 @@ import com.example.springbootdemo.bean.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * @Project: spring-boot-demo
@@ -23,20 +30,20 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/user")
 //说明接口文件
-@Api(value = "测试接口", tags = "用户管理相关的接口", description = "用户测试接口")
+@Tag(name = "测试接口", description = "用户测试接口")
 public class UserController {
     /**
      * 保存数据
      * @param user
      * @return
      */
-    @PostMapping(value = "/save")
+    @PostMapping(value = "save",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     //方法参数说明，name参数名；value参数说明，备注；dataType参数类型；required 是否必传；defaultValue 默认值
-    @ApiImplicitParam(name = "user", value = "新增用户数据")
+//    @ApiImplicitParam(name = "user", value = "新增用户数据")
     //说明是什么方法(可以理解为方法注释)
-    @ApiOperation(value = "添加用户", notes = "添加用户")
-    public String saveUser(User user){
-        return "保存成功";
+    @Operation(summary = "添加用户")
+    public User saveUser(@RequestBody User user){
+        return user;
     }
 
     /**
@@ -44,15 +51,21 @@ public class UserController {
      * @param id
      * @return
      */
-    @GetMapping(value = "findById")
-    @ApiOperation(value = "根据id获取用户信息", notes = "根据id查询用户信息")
-    public User getUser(String id){
-        return new User(id,"name",20,0);
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "根据id获取用户信息", description = "根据id查询用户信息")
+    public User getUser(@PathVariable("id") String id){
+        User user = new User();
+        user.setAge(20);
+        user.setBirthDay(new Date());
+        user.setGender(1);
+        user.setId(id);
+        user.setName("zhangsan");
+        return user ;
     }
 
-    @DeleteMapping(value = "deleteById")
-    @ApiOperation(value = "根据id删除数据", notes = "删除用户")
-    public String delete(String id){
-        return id + "删除成功";
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "根据id删除数据", description = "删除用户")
+    public String delete(@PathVariable("id") String id){
+        return "{\"result\": \"success\"}";
     }
 }
