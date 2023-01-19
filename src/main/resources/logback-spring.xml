@@ -1,0 +1,142 @@
+<configuration scan="true">
+
+    <contextName>spring-boot-demo</contextName>
+
+    <springProperty scope="context" name="raw_files_location" source="raw_files_location" defaultValue="${conf.dir}/../raw_files"/>
+    <springProperty scope="context" name="max_files_history" source="max_files_history" defaultValue="100"/>
+    <springProperty scope="context" name="max_files_total_size" source="max_files_total_size" defaultValue="10GB"/>
+    <springProperty scope="context" name="max_per_file_size" source="max_per_file_size" defaultValue="2MB"/>
+    <springProperty scope="context" name="province_code" source="province_code" defaultValue="047"/>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern> -->
+            <pattern>%date|%-5level|%thread|%msg|%logger{50}:%line%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--application log configuration -->
+    <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${conf.dir}/../log/spring-boot-demo.log</file>
+        <encoder>
+            <!-- <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> -->
+            <pattern>
+                %date|%-5level|%thread|%msg|%logger{50}:%line%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${conf.dir}/../log/spring-boot-demo.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+            <!-- each file should be at most 30MB, keep 30 days worth of history, but at most 10GB -->
+            <maxFileSize>30MB</maxFileSize>
+            <!-- delete 30 days ago files -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+    <!--application error log configuration -->
+    <appender name="ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${conf.dir}/../log/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <!-- <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> -->
+            <pattern>
+                %date|%-5level|%thread|%msg|%logger{50}:%line%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${conf.dir}/../log/error.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+            <maxFileSize>30MB</maxFileSize>
+            <!-- delete 30 days ago files -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="LOG_PERIODIC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.CustomizedSizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${raw_files_location}/HGUPERIODIC_%d{yyyyMMddHHmm}00_15_${province_code}_%i.csv</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.CustomizedTimePeriodTriggeringPolicy">
+                <intervals>15</intervals>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max_files_history}</maxHistory>
+            <totalSizeCap>${max_files_total_size}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxFileSize>${max_per_file_size}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <appender name="LOG_BOOT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.CustomizedSizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${raw_files_location}/HGUINFO_%d{yyyyMMddHHmm}00_15_${province_code}_%i.csv</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.CustomizedTimePeriodTriggeringPolicy">
+                <intervals>15</intervals>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max_files_history}</maxHistory>
+            <totalSizeCap>${max_files_total_size}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxFileSize>${max_per_file_size}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <appender name="LOG_REALTIME" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.CustomizedSizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${raw_files_location}/HGUDIAGNOSE_%d{yyyyMMddHHmm}00_15_${province_code}_%i.csv</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.CustomizedTimePeriodTriggeringPolicy">
+                <intervals>15</intervals>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max_files_history}</maxHistory>
+            <totalSizeCap>${max_files_total_size}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxFileSize>${max_per_file_size}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <appender name="LOG_ALARM" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.CustomizedSizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${raw_files_location}/HGUALARM_%d{yyyyMMddHHmm}00_15_${province_code}_%i.csv</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.CustomizedTimePeriodTriggeringPolicy">
+                <intervals>15</intervals>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max_files_history}</maxHistory>
+            <totalSizeCap>${max_files_total_size}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxFileSize>${max_per_file_size}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.example" level="DEBUG"></logger>
+
+    <logger name="com.example.springbootdemo.sink.PeriodicMsgSink" level="INFO" additivity="false">
+        <appender-ref ref="LOG_PERIODIC"/>
+    </logger>
+    <logger name="com.example.springbootdemo.sink.BootMsgSink" level="INFO" additivity="false">
+        <appender-ref ref="LOG_BOOT"/>
+    </logger>
+    <logger name="com.example.springbootdemo.sink.RealtimeMsgSink" level="INFO" additivity="false">
+        <appender-ref ref="LOG_REALTIME"/>
+    </logger>
+    <logger name="com.example.springbootdemo.sink.AlarmMsgSink" level="INFO" additivity="false">
+        <appender-ref ref="LOG_ALARM"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="APP"/>
+        <appender-ref ref="ERR"/>
+    </root>
+
+</configuration>

@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.example.springbootdemo.jms.FirstAMQConsumer;
 
 @SpringBootApplication
-@EnableWebMvc
 public class SpringBootDemoApplication {
 
     public static void main(String[] args) {
