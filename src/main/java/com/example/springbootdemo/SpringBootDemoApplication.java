@@ -1,19 +1,20 @@
 package com.example.springbootdemo;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import com.example.springbootdemo.jms.FirstAMQConsumer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class SpringBootDemoApplication {
 
     public static void main(String[] args) {
+        String propLocation = "spring.config.additional-location:file:" + System.getProperty("conf.dir")
+                + "/application.properties";
 
-        SpringApplication.run(SpringBootDemoApplication.class, args);
+        new SpringApplicationBuilder(SpringBootDemoApplication.class)
+                .properties(propLocation)
+                .build()
+                .run(args);
+//        SpringApplication.run(SpringBootDemoApplication.class, args);
     }
 
 

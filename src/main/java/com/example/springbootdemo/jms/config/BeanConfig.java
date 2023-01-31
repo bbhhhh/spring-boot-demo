@@ -1,10 +1,6 @@
 package com.example.springbootdemo.jms.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.example.springbootdemo.bean.ComponentBean;
-import com.example.springbootdemo.bean.SubComponent;
 
 /**
  * @Project: spring-boot-demo

@@ -1,0 +1,63 @@
+<configuration scan="true">
+
+    <contextName>spring-boot-demo</contextName>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern> -->
+            <pattern>%date|%-5level|%thread|%msg|%logger{50}:%line%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--application log configuration -->
+    <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${conf.dir}/../log/spring-boot-demo.log</file>
+        <encoder>
+            <!-- <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> -->
+            <pattern>
+                %date|%-5level|%thread|%msg|%logger{50}:%line%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${conf.dir}/../log/spring-boot-demo.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+            <!-- each file should be at most 30MB, keep 30 days worth of history, but at most 10GB -->
+            <maxFileSize>30MB</maxFileSize>
+            <!-- delete 30 days ago files -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+    <!--application error log configuration -->
+    <appender name="ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${conf.dir}/../log/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <!-- <pattern> [%date][%level][%thread] [%file:%line] %msg - %logger{50}%n </pattern> -->
+            <pattern>
+                %date|%-5level|%thread|%msg|%logger{50}:%line%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${conf.dir}/../log/error.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+            <maxFileSize>30MB</maxFileSize>
+            <!-- delete 30 days ago files -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+
+    <logger name="com.example" level="DEBUG"></logger>
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="APP"/>
+        <appender-ref ref="ERR"/>
+    </root>
+
+</configuration>
